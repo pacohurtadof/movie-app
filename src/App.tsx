@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
 
-function App() {
+import HomePage from "./modules/HomePage";
+import WatchlistPage from "./modules/Watchlist";
+import ComparisonPage from "./modules/ComparasionPage";
+import { Watchlist } from "./types/movies";
+
+export default function App() {
+  const [watchlist, setWatchlist] = useState<Watchlist[]>([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <HomePage
+              watchlist={watchlist}
+              setWatchlist={setWatchlist}
+            />
+          }
+        />
+
+        <Route
+          path="/watchlist"
+          element={
+            <WatchlistPage
+              watchlist={watchlist}
+              setWatchlist={setWatchlist}
+            />
+          }
+        />
+
+        <Route
+          path="/compare"
+          element={<ComparisonPage watchlist={watchlist} />}
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;
